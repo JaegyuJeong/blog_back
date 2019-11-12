@@ -6,8 +6,11 @@ const post = require("./routers/post");
 const user = require("./routers/user");
 const tag = require("./routers/tag");
 const comment = require("./routers/comment");
+const config = require("./common/jwt_config");
+const auth = require("./common/auth")();
 
 const dbURI = process.env.MONGODB_URI || "mongodb://localhost/blog-dev";
+app.use(Helmet());
 app.use((req, res, next) => {
   mongoose
     .connect(dbURI, {
@@ -19,7 +22,7 @@ app.use((req, res, next) => {
     .then(() => next())
     .catch(e => next(e));
 });
-app.use(Helmet());
+app.use(auth.initialize());
 app.use(express.json());
 app.use("/auth", user);
 app.use("/api/post", post);
