@@ -41,4 +41,69 @@ router.post(
   })
 );
 
+router.get(
+  "/",
+  wrapper(async (req, res, next) => {
+    const { tag, page = "1" } = req.query;
+    const skip = parseInt(page) * 5 - 5;
+
+    if (tag) {
+      const posts = await Post.find()
+        .where("tags")
+        .in(tag)
+        .skip(skip)
+        .limit(5)
+        .sort("-date")
+        .populate("tags");
+      res.json({ posts });
+    } else {
+      const posts = await Post.find()
+        .skip(skip)
+        .limit(5)
+        .sort("-date")
+        .populate("tags");
+      res.json({ posts });
+    }
+    next();
+  })
+);
+
+router.get(
+  "/:id",
+  wrapper(async (req, res, next) => {
+    const post = await Post.findById(req.params.id).populate("tags");
+    res.json(post);
+    next();
+  })
+);
+
+router.patch(
+  "/:id",
+  auth.authenticate(),
+  wrapper(async (req, res, next) => {
+    if (!req.user.admin) {
+      res.json({ error: "unauthorized" });
+      next();
+      return;
+    }
+    await Post.updateOne({ _id: req.params.id }, req.body);
+    res.json({ result: true });
+    next();
+  })
+);
+
+router.delete(
+  "/:id",
+  auth.authenticate(),
+  wrapper(async (req, res, next) => {
+    if (!req.user.admin) {
+      res.json({ error: "unauthorized" });
+      next();
+      return;
+    }
+    await Post.deleteOne({ _id: req.params.id });
+    res.json({ result: true });
+    next();
+  })
+);
 module.exports = router;
