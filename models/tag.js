@@ -3,7 +3,7 @@ const Joi = require("@hapi/joi");
 const { Schema, model } = mongoose;
 
 const tagSchema = new Schema({
-  name: String,
+  name: { type: String, unique: true, lowercase: true },
   posts: [{ type: mongoose.Types.ObjectId, ref: "Post" }]
 });
 
