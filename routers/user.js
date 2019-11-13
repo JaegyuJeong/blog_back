@@ -33,7 +33,7 @@ router.post("/login", async (req, res, next) => {
     const token = jwt.sign(
       { id: user._id, name: user.name, email: user, admin: user.admin },
       jwtSecret,
-      { expiresIn: "1m" }
+      { expiresIn: "1h" }
     );
     res.json({ result: true, token, admin: user.admin });
     next();
