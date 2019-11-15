@@ -8,6 +8,7 @@ const tagSchema = new Schema({
 });
 
 const Tag = model("Tag", tagSchema);
+
 function validateTag(tag) {
   const schema = Joi.object({
     name: Joi.string(),
@@ -15,7 +16,6 @@ function validateTag(tag) {
   });
   return schema.validate(tag);
 }
-
 module.exports = {
   Tag,
   validateTag

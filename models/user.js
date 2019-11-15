@@ -10,6 +10,7 @@ const userSchema = new Schema({
 });
 
 const User = model("User", userSchema);
+
 function validateUser(user) {
   const schema = Joi.object({
     name: Joi.string(),
@@ -18,7 +19,6 @@ function validateUser(user) {
   });
   return schema.validate(user);
 }
-
 module.exports = {
   User,
   validateUser

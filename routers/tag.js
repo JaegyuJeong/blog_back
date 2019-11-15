@@ -22,7 +22,7 @@ router.post(
       return;
     }
     const tag = new Tag({
-      name: name
+      name
     });
     await tag.save();
     res.json({ tag });
@@ -38,7 +38,7 @@ router.get(
     if (tag) {
       res.json({ tag });
     } else {
-      res.json({ error: "태그가 없습니다." });
+      res.json({ error: "태그가 없습니다" });
     }
     next();
   })

@@ -12,6 +12,7 @@ const postSchema = new Schema({
 });
 
 const Post = model("Post", postSchema);
+
 function validatePost(post) {
   const schema = Joi.object({
     title: Joi.string(),
@@ -23,7 +24,6 @@ function validatePost(post) {
   });
   return schema.validate(post);
 }
-
 module.exports = {
   Post,
   validatePost

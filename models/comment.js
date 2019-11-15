@@ -10,6 +10,7 @@ const commentSchema = new Schema({
 });
 
 const Comment = model("Comment", commentSchema);
+
 function validateComment(comment) {
   const schema = Joi.object({
     post_id: Joi.string(),
@@ -19,7 +20,6 @@ function validateComment(comment) {
   });
   return schema.validate(comment);
 }
-
 module.exports = {
   Comment,
   validateComment
